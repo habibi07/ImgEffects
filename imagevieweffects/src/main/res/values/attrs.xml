@@ -13,6 +13,17 @@
             <enum name="corner" value="5" />
             <enum name="ribbon" value="6" />
         </attr>
+        <attr name="mTitleHeight" format="integer"/>
+        <attr name="mTtitleBackColor" format="color"/>
+        <attr name="mTtitleFontColor" format="color" />
+        <attr name="mMaskOpacity" format="float"/>
+        <attr name="mMaskColor" format="color" />
+        <attr name="mTitleBlockPosition" format="enum">
+            <enum name="top" value="0"/>
+            <enum name="middle" value="1"/>
+            <enum name="bottom" value="2"/>
+        </attr>
+        <attr name="mEffectDuration" format="integer"/>
     </declare-styleable>
 
 </resources>

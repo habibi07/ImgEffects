@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="5dp"
+    android:padding="20dp"
     tools:context="com.kgkg.imagevieweffectexample.MainActivity"
     android:orientation="vertical">
     
@@ -13,7 +13,14 @@
         android:id="@+id/myCustomImageView"
         app:mImage="@drawable/hs"
         app:mTitle="To jest tytul"
-        app:mEffect="ribbon"
+        app:mEffect="fade"
+        app:mMaskColor="@android:color/holo_red_dark"
+        app:mMaskOpacity="0.5"
+        app:mTitleBlockPosition="bottom"
+        app:mTitleHeight="20"
+        app:mEffectDuration="2000"
+        app:mTtitleBackColor="#00ddff"
+        app:mTtitleFontColor="@android:color/holo_red_dark"
         android:layout_height="wrap_content"
         />
 
