@@ -24,6 +24,7 @@
             <enum name="bottom" value="2"/>
         </attr>
         <attr name="mEffectDuration" format="integer"/>
+        <attr name="mTitleTextSize" format="integer"/>
     </declare-styleable>
 
 </resources>

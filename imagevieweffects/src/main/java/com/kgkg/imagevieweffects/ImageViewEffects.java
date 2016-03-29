@@ -1,5 +1,8 @@
 package com.kgkg.imagevieweffects;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -8,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,7 +43,7 @@ public class ImageViewEffects extends FrameLayout {
     private int mMaskColor;
     private int mTitleBlockPosition;
     private int mEffectDuration;
-
+    private int mTitleTextSize;
 
     private IOnPlayEffect OnPlayEffectListener;
 
@@ -69,6 +71,7 @@ public class ImageViewEffects extends FrameLayout {
                     getResources().getColor(android.R.color.black));
             mTitleBlockPosition = a.getInt(R.styleable.ImageViewEffects_mTitleBlockPosition, 0);
             mEffectDuration = a.getInt(R.styleable.ImageViewEffects_mEffectDuration, 1000);
+            mTitleTextSize = a.getInt(R.styleable.ImageViewEffects_mTitleTextSize, 20);
         } finally {
             a.recycle();
         }
@@ -79,6 +82,7 @@ public class ImageViewEffects extends FrameLayout {
         {
             tvTitle.setTextColor(mTitleFontColor);
             tvTitle.setText(mTitle);
+            tvTitle.setTextSize(mTitleTextSize);
         }
         if (titleBlock != null)
         {
@@ -90,7 +94,46 @@ public class ImageViewEffects extends FrameLayout {
             titleMask.setBackgroundColor(mMaskColor);
             titleMask.setAlpha(mMaskOpacity);
         }
+    }
 
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+
+        if (ivImage != null){
+            if (ivImage.getHeight() > 0){
+                titleMaskParams.height = ivImage.getHeight();
+                titleMaskParams.width = ivImage.getWidth();
+                titleMask.setLayoutParams(titleMaskParams);
+                isTitleMaskSet = true;
+                if (mTitleTextSize < mTitleHeight) {
+                    titleBlockParams = titleBlock.getLayoutParams();
+                    titleBlockParams.height = mTitleHeight;
+                    titleBlockParams.width = ivImage.getWidth();
+                    titleBlock.setLayoutParams(titleBlockParams);
+                } else {
+                    mTitleHeight = tvTitle.getHeight();
+                }
+
+
+                int tTop;
+                switch (mTitleBlockPosition) {
+                    case 0:
+                        break;
+                    case 1:
+                        tTop = ivImage.getHeight() / 2 - mTitleHeight / 2;
+                        titleBlock.setY(tTop);
+                        break;
+                    case 2:
+                        tTop = ivImage.getHeight() - mTitleHeight;
+                        titleBlock.setY(tTop);
+                        break;
+                    default:
+                        break;
+                }
+                isTitleBlockSet = true;
+            }
+        }
 
 
     }
@@ -103,11 +146,11 @@ public class ImageViewEffects extends FrameLayout {
     private void init(){
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.imageview_layout, this, true);
-
+        titleBlock = (LinearLayout) this.findViewById(R.id.titleBlock);
         tvTitle = (TextView) this.findViewById(R.id.tvTitle);
         ivImage = (ImageView) this.findViewById(R.id.ivImage);
         titleMask = (LinearLayout) this.findViewById(R.id.titleMask);
-        titleBlock = (LinearLayout) this.findViewById(R.id.titleBlock);
+
 
     }
 
@@ -194,11 +237,46 @@ public class ImageViewEffects extends FrameLayout {
 
     private void fadeIn(){
         titleBlock.setVisibility(View.VISIBLE);
+        titleBlock.setAlpha(0);
         titleMask.setVisibility(View.VISIBLE);
+        titleMask.setAlpha(0);
+        ValueAnimator anim = new ValueAnimator().ofFloat(0, 1).setDuration(mEffectDuration);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float a = (float) animation.getAnimatedValue();
+                titleBlock.setAlpha(a);
+                titleMask.setAlpha(a * mMaskOpacity);
+            }
+        });
+        anim.start();
+
     }
     private void fadeOut(){
-        titleBlock.setVisibility(View.GONE);
-        titleMask.setVisibility(View.GONE);
+        titleBlock.setAlpha(1);
+        titleMask.setAlpha(1);
+        ValueAnimator anim = new ValueAnimator().ofFloat(1, 0).setDuration(mEffectDuration);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float a = (float) animation.getAnimatedValue();
+                titleBlock.setAlpha(a);
+                titleMask.setAlpha(a * mMaskOpacity);
+            }
+        });
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (OnPlayEffectListener != null) {
+                    OnPlayEffectListener.endEffect();
+                    titleBlock.setVisibility(View.GONE);
+                    titleMask.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        anim.start();
+
     }
 
     @Override
@@ -211,46 +289,6 @@ public class ImageViewEffects extends FrameLayout {
     @Override
     protected void onWindowVisibilityChanged(int visibility) {
         super.onWindowVisibilityChanged(visibility);
-        ViewTreeObserver vto = ivImage.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if (!isTitleMaskSet && ivImage.getHeight() > 0) {
-                    titleMaskParams.height = ivImage.getHeight();
-                    titleMaskParams.width = ivImage.getWidth();
-                    titleMask.setLayoutParams(titleMaskParams);
-                    isTitleMaskSet = true;
-                }
-                if (!isTitleBlockSet && ivImage.getHeight() > 0) {
-                    // FIXME: 2016-03-25 Else is never triggerd, change condition
-                    if (tvTitle.getHeight() < mTitleHeight) {
-                        titleBlockParams = titleBlock.getLayoutParams();
-                        titleBlockParams.height = mTitleHeight;
-                        titleBlockParams.width = ivImage.getWidth();
-                        titleBlock.setLayoutParams(titleBlockParams);
-                    } else {
-                        mTitleHeight = tvTitle.getHeight();
-                    }
-                    Log.i(TAG, "onGlobalLayout: titleBlockParams height: " + titleBlockParams.height);
-                    Log.i(TAG, "onGlobalLayout: min titleBlock height: " + titleBlock);
-                    int top;
-                    switch (mTitleBlockPosition) {
-                        case 0:
-                            break;
-                        case 1:
-                            top = ivImage.getHeight() / 2 - mTitleHeight / 2;
-                            titleBlock.setY(top);
-                            break;
-                        case 2:
-                            top = ivImage.getHeight() - mTitleHeight;
-                            titleBlock.setY(top);
-                            break;
-                        default:
-                            break;
-                    }
-                    isTitleBlockSet = true;
-                }
-            }
-        });
+
     }
 }
