@@ -1,7 +1,5 @@
 package com.kgkg.imagevieweffects;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -271,29 +269,6 @@ public class ImageViewEffects extends FrameLayout {
         anim.start();
     }
     private void fadeOut(){
-        titleBlock.setAlpha(1);
-        titleMask.setAlpha(1);
-        ValueAnimator anim = new ValueAnimator().ofFloat(1, 0).setDuration(mEffectDuration);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float a = (float) animation.getAnimatedValue();
-                titleBlock.setAlpha(a);
-                titleMask.setAlpha(a * mMaskOpacity);
-            }
-        });
-        anim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (OnPlayEffectListener != null) {
-                    OnPlayEffectListener.endEffect();
-                    titleBlock.setVisibility(View.GONE);
-                    titleMask.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        anim.start();
 
     }
 
@@ -301,19 +276,6 @@ public class ImageViewEffects extends FrameLayout {
 
     }
     private void slideOut(){
-
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        isTitleBlockSet = false;
-        isTitleMaskSet = false;
-    }
-
-    @Override
-    protected void onWindowVisibilityChanged(int visibility) {
-        super.onWindowVisibilityChanged(visibility);
 
     }
 }
