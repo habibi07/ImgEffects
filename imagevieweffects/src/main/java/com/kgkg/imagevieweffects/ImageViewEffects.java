@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -299,41 +298,7 @@ public class ImageViewEffects extends FrameLayout {
     }
 
     private void slideIn(){
-        titleBlock.setVisibility(View.VISIBLE);
-        titleMask.setVisibility(View.VISIBLE);
-        Log.i(TAG, "slideIn: ivImage width: " + ivImage.getWidth());
-        ValueAnimator anim = new ValueAnimator().ofFloat(0, 1).setDuration(mEffectDuration);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float a = (float) animation.getAnimatedValue();
-                float x;
-                switch (mTitleBlockDirection){
-                    case 0:
-                        x = (a - 1) * ivImage.getWidth();
-                        titleBlock.setX(x);
-                        break;
-                    case 1:
-                        x = (1 -  a) * ivImage.getWidth();
-                        titleBlock.setX(x);
-                        break;
-                    case 2:
-                        x = (a - 1) * ivImage.getHeight();
-                        titleBlock.setY(x);
-                        break;
-                    case 3:
-                        x = (1 -  a) * ivImage.getWidth();
-                        titleBlock.setY(x);
-                        break;
 
-                }
-
-
-            }
-        });
-        anim.setInterpolator(new LinearInterpolator());
-
-        anim.start();
     }
     private void slideOut(){
 
