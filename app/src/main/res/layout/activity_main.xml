@@ -6,30 +6,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="20dp"
     tools:context="com.kgkg.imagevieweffectexample.MainActivity"
-    android:orientation="vertical">
-    
-    <com.kgkg.imagevieweffects.ImageViewEffects
-        android:layout_width="match_parent"
-        android:id="@+id/myCustomImageView"
-        app:mImage="@drawable/hs"
-        app:mTitle="To jest tytul"
-        app:mEffect="slide"
-        app:mMaskColor="#00ddff"
-        app:mMaskOpacity="0.5"
-        app:mTitleBlockPosition="middle"
-        app:mTitleHeight="100"
-        app:mEffectDuration="1000"
-        app:mTitleTextSize="10"
-        app:mTtitleBackColor="#00ddff"
-        app:mTtitleFontColor="@android:color/white"
-        android:layout_height="wrap_content"
-        />
-
+    android:orientation="horizontal">
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Click Me !!"
-        />
-
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivImage"
+                android:src="@drawable/hs"
+                android:scaleType="fitStart"
+                android:adjustViewBounds="true" />
+        </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>
