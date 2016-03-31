@@ -7,26 +7,32 @@
     android:padding="20dp"
     tools:context="com.kgkg.imagevieweffectexample.MainActivity"
     android:orientation="horizontal">
-    <Button
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content" />
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
-        <FrameLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ivImage"
-                android:src="@drawable/hs"
-                android:scaleType="fitStart"
-                android:adjustViewBounds="true" />
-        </FrameLayout>
-    </LinearLayout>
+
+    <com.kgkg.imagevieweffects.ImageFrame
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/myImageFrame"
+        app:mTitleBlockPosition="bottom"
+        app:mImage="@drawable/hs">
+        <com.kgkg.imagevieweffects.ImageMask
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:MaskEffect="fade"
+            app:mEffectDuration="1000"
+            app:mMaskColor="@color/accent"
+            app:mMaskOpacity="0.5"/>
+        <com.kgkg.imagevieweffects.ImageTitle
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lorem ipsum"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="@color/accent"
+            android:gravity="center"
+            android:padding="15dp"
+            app:TitleEffect="move"
+            app:mEffectDuration="1000"
+            app:mEffectDirection="bottom"/>
+    </com.kgkg.imagevieweffects.ImageFrame>
+
 
 </LinearLayout>

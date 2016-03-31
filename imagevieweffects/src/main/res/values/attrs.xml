@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="mEffectDuration" format="integer"/>
+    <attr name="mEffectDirection" format="enum" >
+        <enum name="left" value="0" />
+        <enum name="right" value="1" />
+        <enum name="top" value="2" />
+        <enum name="bottom" value="3" />
+    </attr>
 
     <declare-styleable name="ImageTitle">
-        <attr name="mEffect" format="integer">
+        <attr name="mEffectDuration" />
+        <attr name="mEffectDirection" />
+        <attr name="TitleEffect" format="integer">
             <enum name="none" value="0" />
             <enum name="fade" value="1" />
             <enum name="slide" value="2" />
@@ -11,43 +20,30 @@
             <enum name="corner" value="5" />
             <enum name="ribbon" value="6" />
         </attr>
-        <attr name="mEffectDuration" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="ImageMask">
+        <attr name="MaskEffect" format="integer">
+            <enum name="none" value="0" />
+            <enum name="slideTop" value="1" />
+            <enum name="slideBottom" value="2" />
+            <enum name="slideLeft" value="3" />
+            <enum name="slideRight" value="4" />
+            <enum name="fade" value="5" />
+        </attr>
+        <attr name="mEffectDuration" />
+        <attr name="mMaskColor" format="color" />
+        <attr name="mMaskOpacity" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="ImageFrame">
+        <attr name="mImage" format="reference"/>
+        <attr name="mReverseOnSecondClick" format="boolean" />
         <attr name="mTitleBlockPosition" format="enum">
             <enum name="top" value="0"/>
             <enum name="middle" value="1"/>
             <enum name="bottom" value="2"/>
         </attr>
-        <attr name="mEffectDirection" format="enum" >
-            <enum name="left" value="0" />
-            <enum name="right" value="1" />
-            <enum name="top" value="2" />
-            <enum name="bottom" value="3" />
-        </attr>
-    </declare-styleable>
-
-    <declare-styleable name="ImageMask">
-        <attr name="mEffect" format="integer">
-            <enum name="none" value="0" />
-            <enum name="fade" value="1" />
-            <enum name="slide" value="2" />
-            <enum name="move" value="3" />
-            <enum name="uncover" value="4" />
-            <enum name="corner" value="5" />
-            <enum name="ribbon" value="6" />
-        </attr>
-        <attr name="mEffectDuration" format="integer"/>
-        <attr name="mMaskColor" format="color" />
-        <attr name="mMaskOpacity" format="float"/>
-        <attr name="mEffectDirection" format="enum" >
-            <enum name="left" value="0" />
-            <enum name="right" value="1" />
-            <enum name="top" value="2" />
-            <enum name="bottom" value="3" />
-        </attr>
-    </declare-styleable>
-
-    <declare-styleable name="ImageFrame">
-        <attr name="mImage" format="reference"/>
     </declare-styleable>
 
 </resources>
