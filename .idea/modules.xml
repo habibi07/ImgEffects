@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ImageViewEffectExample.iml" filepath="$PROJECT_DIR$/ImageViewEffectExample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ImageViewEffects.iml" filepath="$PROJECT_DIR$/ImageViewEffects.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/imagevieweffects/imagevieweffects.iml" filepath="$PROJECT_DIR$/imagevieweffects/imagevieweffects.iml" />
     </modules>

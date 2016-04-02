@@ -134,30 +134,14 @@ public class ImageFrame extends FrameLayout {
         if (mImageTitle != null){
             //Log.i(TAG, "showTitleBlockEffect: effefct: " + effect);
             toggleTitle();
-            float ratio = mImageTitle.getHeight() / mImage.getHeight();
+
+            float ratio = (float)mImageTitle.getHeight()/2 / mImage.getHeight();
             Animation mAnimation = new TranslateAnimation(
                     TranslateAnimation.ABSOLUTE, 0f,
                     TranslateAnimation.ABSOLUTE, 0f,
                     TranslateAnimation.RELATIVE_TO_PARENT, 0f,
                     TranslateAnimation.RELATIVE_TO_PARENT, -ratio);
             mAnimation.setDuration(1000);
-            mAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-
             mAnimation.setFillAfter(true);
             mImage.startAnimation(mAnimation);
 

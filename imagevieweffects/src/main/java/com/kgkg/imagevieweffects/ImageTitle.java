@@ -1,12 +1,16 @@
 package com.kgkg.imagevieweffects;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 /**
@@ -171,6 +175,5 @@ public class ImageTitle extends TextView {
     private String rectToString(Rect r){
         return "bottom: " + r.bottom + " left: " + r.left + " right: " + r.right + " top: " + r.top;
     }
-
 
 }
