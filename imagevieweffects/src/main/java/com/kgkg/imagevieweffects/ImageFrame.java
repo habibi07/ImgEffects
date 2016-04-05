@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -62,10 +65,33 @@ public class ImageFrame extends FrameLayout {
         super.addView(child, index, params);
         if (child instanceof ImageTitle){
             mImageTitle = (ImageTitle) child;
+            if (mImageTitle.getEffect() == 5){
+                mImageTitle.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+
+                if (mTitleBlockPosition == 1 || mTitleBlockPosition == 0){
+                    if (mImageTitle.getEffectDirection() == 1){
+                        //top right
+                        mImageTitle.setGravity(Gravity.RIGHT | Gravity.TOP);
+                    } else {
+                        //top left
+                        mImageTitle.setGravity(Gravity.LEFT | Gravity.TOP);
+                    }
+                } else {
+                    if (mImageTitle.getEffectDirection() == 1){
+                        //bottom right
+                        mImageTitle.setGravity(Gravity.RIGHT | Gravity.BOTTOM);
+                    } else {
+                        //bottom left
+                        mImageTitle.setGravity(Gravity.LEFT | Gravity.BOTTOM);
+                    }
+                }
+            }
+            mImageTitle.requestLayout();
         }
         if (child instanceof  ImageMask){
             mImageMask = (ImageMask) child;
         }
+
     }
 
     @Override
@@ -82,12 +108,16 @@ public class ImageFrame extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (mImage.getHeight() > 0 && mTitleBlockPosition > 0){
-            if (mTitleBlockPosition == 1){
-                mImageTitle.setY((mImage.getHeight() - mImageTitle.getHeight()) / 2);
-                mImageTitle.requestLayout();
-            } else if (mTitleBlockPosition == 2){
-                mImageTitle.setY(mImage.getHeight() - mImageTitle.getHeight());
-                mImageTitle.requestLayout();
+            if (mImageTitle.getEffect() == 5){
+
+            } else {
+                if (mTitleBlockPosition == 1){
+                    mImageTitle.setY((mImage.getHeight() - mImageTitle.getHeight()) / 2);
+                    mImageTitle.requestLayout();
+                } else if (mTitleBlockPosition == 2){
+                    mImageTitle.setY(mImage.getHeight() - mImageTitle.getHeight());
+                    mImageTitle.requestLayout();
+                }
             }
         }
 
@@ -132,21 +162,54 @@ public class ImageFrame extends FrameLayout {
 
     public void showTitleBlockEffect(int effect){
         if (mImageTitle != null){
-            //Log.i(TAG, "showTitleBlockEffect: effefct: " + effect);
-            toggleTitle();
-
-            float ratio = (float)mImageTitle.getHeight()/2 / mImage.getHeight();
-            Animation mAnimation = new TranslateAnimation(
-                    TranslateAnimation.ABSOLUTE, 0f,
-                    TranslateAnimation.ABSOLUTE, 0f,
-                    TranslateAnimation.RELATIVE_TO_PARENT, 0f,
-                    TranslateAnimation.RELATIVE_TO_PARENT, -ratio);
-            mAnimation.setDuration(1000);
-            mAnimation.setFillAfter(true);
-            mImage.startAnimation(mAnimation);
+            if (mImageTitle.getEffect() != 5)
+                toggleTitle();
+            if (effect == 3){
+                float ratio;
+                if (mTitleBlockPosition ==2){
+                    ratio = -(float)mImageTitle.getHeight()/2 / mImage.getHeight();
+                } else {
+                    ratio = (float)mImageTitle.getHeight()/2 / mImage.getHeight();
+                }
+                Animation mAnimation = new TranslateAnimation(
+                        TranslateAnimation.ABSOLUTE, 0f,
+                        TranslateAnimation.ABSOLUTE, 0f,
+                        TranslateAnimation.RELATIVE_TO_PARENT, 0f,
+                        TranslateAnimation.RELATIVE_TO_PARENT, ratio);
+                mAnimation.setDuration(4000);
+                mAnimation.setFillAfter(true);
+                mImage.startAnimation(mAnimation);
+            } else if (effect == 4){
+                float ratio;
+                if (mTitleBlockPosition == 2){
+                    ratio = -(float)mImageTitle.getHeight() / mImage.getHeight();
+                } else {
+                    ratio = (float)mImageTitle.getHeight() / mImage.getHeight();
+                }
+                Animation mAnimation = new TranslateAnimation(
+                        TranslateAnimation.ABSOLUTE, 0f,
+                        TranslateAnimation.ABSOLUTE, 0f,
+                        TranslateAnimation.RELATIVE_TO_PARENT, 0f,
+                        TranslateAnimation.RELATIVE_TO_PARENT, ratio);
+                mAnimation.setDuration(4000);
+                mAnimation.setFillAfter(true);
+                mImage.startAnimation(mAnimation);
+            }
 
             AnimatorSet anim = new AnimatorSet();
-            anim.playTogether(getTitleBlockAnimation(effect));
+            ValueAnimator[] anims = getTitleBlockAnimation(effect);
+
+            if (mImageTitle.isEffectToggled()){
+                for (ValueAnimator a: anims){
+                    a.setInterpolator(new ReverseInterpolator());
+                }
+            } else {
+                for (ValueAnimator a: anims){
+                    a.setInterpolator(new LinearInterpolator());
+                }
+            }
+
+            anim.playTogether(anims);
             anim.start();
         }
     }
@@ -167,7 +230,6 @@ public class ImageFrame extends FrameLayout {
         return new ValueAnimator();
     }
     private ValueAnimator[] getTitleBlockAnimation(int effect){
-
         return mImageTitle.getEffectAnimation(effect);
     }
     private ValueAnimator showMaskAnimation(){
@@ -217,5 +279,12 @@ public class ImageFrame extends FrameLayout {
                 ", mTitleBlockPosition=" + mTitleBlockPosition +
                 ", mReverseOnSecondClick=" + mReverseOnSecondClick +
                 '}';
+    }
+
+    private class  ReverseInterpolator extends LinearInterpolator implements Interpolator {
+        @Override
+        public float getInterpolation(float input) {
+            return Math.abs(input - 1f);
+        }
     }
 }

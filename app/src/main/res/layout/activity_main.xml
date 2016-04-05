@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/myImageFrame"
-        app:mTitleBlockPosition="bottom"
+        app:mTitleBlockPosition="middle"
         app:mImage="@drawable/hs">
         <com.kgkg.imagevieweffects.ImageMask
             android:layout_width="match_parent"
@@ -28,10 +28,11 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:background="@color/accent"
             android:gravity="center"
+            android:textColor="@android:color/holo_blue_dark"
             android:padding="15dp"
-            app:TitleEffect="move"
-            app:mEffectDuration="1000"
-            app:mEffectDirection="bottom"/>
+            app:TitleEffect="corner"
+            app:mEffectDuration="4000"
+            app:mEffectDirection="right"/>
     </com.kgkg.imagevieweffects.ImageFrame>
 
 
