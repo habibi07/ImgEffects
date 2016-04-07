@@ -162,7 +162,7 @@ public class ImageFrame extends FrameLayout {
 
     public void showTitleBlockEffect(int effect){
         if (mImageTitle != null){
-            if (mImageTitle.getEffect() != 5)
+            if (mImageTitle.getEffect() != 5 || mImageTitle.getEffect() != 6)
                 toggleTitle();
             if (effect == 3){
                 float ratio;

@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/myImageFrame"
-        app:mTitleBlockPosition="middle"
+        app:mTitleBlockPosition="top"
         app:mImage="@drawable/hs">
         <com.kgkg.imagevieweffects.ImageMask
             android:layout_width="match_parent"
@@ -30,9 +30,9 @@
             android:gravity="center"
             android:textColor="@android:color/holo_blue_dark"
             android:padding="15dp"
-            app:TitleEffect="corner"
+            app:TitleEffect="ribbon"
             app:mEffectDuration="4000"
-            app:mEffectDirection="right"/>
+            app:mEffectDirection="left"/>
     </com.kgkg.imagevieweffects.ImageFrame>
 
 

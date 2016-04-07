@@ -11,8 +11,10 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.Region;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,11 +30,17 @@ public class ImageTitle extends TextView {
     private int mEffectDirection;
     private boolean drawSmallTriangle = false;
     private boolean drawBigTriangle = false;
+    private boolean drawRibbon = false;
     private float triangleWidth = 100.0f;
     private float triangleHeight = 100.0f;
     private int bgColor;
     private boolean isEffectToggled = false;
     Paint paint;
+    private float animVal = 0;
+    private float ribDx = -50f;
+    private float ribDy = -50f;
+    private final float factor = 0.2f;
+
 
     // TODO: 05.04.16 add corner size properties
     public ImageTitle(Context context) {
@@ -51,13 +59,15 @@ public class ImageTitle extends TextView {
             a.recycle();
         }
 
-        if (mEffect != 5){
+        bgColor = ((ColorDrawable) getBackground()).getColor();
+
+        if (mEffect != 5 || mEffect != 6){
             setVisibility(View.INVISIBLE);
         } else {
             drawSmallTriangle = true;
             setVisibility(View.VISIBLE);
             //setTextAlpha(0);
-            bgColor = ((ColorDrawable) getBackground()).getColor();
+
 
             setBackgroundColor(Color.TRANSPARENT);
 
@@ -129,7 +139,101 @@ public class ImageTitle extends TextView {
                 canvas.drawPath(path, paint);
                 super.onDraw(canvas);
             }
+
+        } else if (drawRibbon){
+            Rect newRect = canvas.getClipBounds();
+            newRect.inset(-Math.abs((int) ribDx), -Math.abs((int) ribDy));
+
+            canvas.clipRect(newRect, Region.Op.REPLACE);
+
+            Paint paintCurrent = new Paint();
+            paintCurrent.setColor(bgColor);
+
+            Paint newPaint = new Paint();
+            int r = Color.red(bgColor);
+            int g = Color.green(bgColor);
+            int b = Color.blue(bgColor);
+            float fact = 0.7f;
+            float fr = Color.red(bgColor) * fact;
+            float fg = Color.green(bgColor) * fact;
+            float fb = Color.blue(bgColor) * fact;
+
+            int colChange = 50;
+
+            newPaint.setColor(Color.argb(255,(int)fr, (int)fg, (int)fb));
+            if (animVal < factor){
+                float f1 = (1/ factor) * animVal;
+
+                Path ribPath = new Path();
+                if (mEffectDirection == 1){
+                    ribPath.moveTo(getWidth(), getHeight());
+                    ribPath.lineTo(getWidth() + ribDx * f1, getHeight() + ribDy * f1);
+                    ribPath.lineTo(getWidth() + ribDx * f1, ribDy *f1);
+                    ribPath.lineTo(getWidth() , 0);
+                    ribPath.close();
+                } else {
+                    ribPath.moveTo(0, getHeight());
+                    ribPath.lineTo(ribDx * f1, getHeight() + ribDy * f1);
+                    ribPath.lineTo(ribDx * f1, ribDy *f1);
+                    ribPath.lineTo(0, 0);
+                    ribPath.close();
+                }
+                canvas.drawPath(ribPath, newPaint);
+            } else {
+                float f2 = (animVal - factor) / (1f - factor);
+                Rect rect;
+                Path ribPath = new Path();
+                if (mEffectDirection == 1){
+                    ribPath.moveTo(getWidth(), getHeight());
+                    ribPath.lineTo(getWidth() + ribDx, getHeight() + ribDy);
+                    ribPath.lineTo(getWidth() + ribDx, ribDy);
+                    ribPath.lineTo(getWidth(), 0);
+                    ribPath.close();
+                    rect = new Rect((int) (getWidth() * (1 - f2) + (int) ribDx),
+                            (int) ribDy,
+                            canvas.getWidth() + (int) ribDx,
+                            canvas.getHeight() + (int) ribDy);
+
+                } else {
+                    ribPath.moveTo(0, getHeight());
+                    ribPath.lineTo(ribDx, getHeight() + ribDy);
+                    ribPath.lineTo(ribDx, ribDy);
+                    ribPath.lineTo(0, 0);
+                    ribPath.close();
+                    rect = new Rect((int) ribDx, (int) ribDy, canvas.getWidth() + (int) ribDx, canvas.getHeight() + (int) ribDy);
+
+                }
+                canvas.drawPath(ribPath, newPaint);
+
+                Log.i(TAG, "onDraw: rect Left: " + rect.left);
+
+                Paint textPaint = super.getPaint();
+                Rect textBounds = new Rect();
+                
+                String text = (String) getText();
+
+                textPaint.getTextBounds(text, 0, text.length(), textBounds);
+                textPaint.setColor(getCurrentTextColor());
+                textPaint.setTextScaleX(animVal);
+
+                float yPos;
+                yPos = ((textBounds.bottom - textBounds.top) / 2) * getResources().getDisplayMetrics().density;
+
+                if (mEffectDirection == 1){
+                    canvas.scale(animVal, 1f,getWidth() + ribDx, ribDy);
+                } else {
+                    canvas.scale(animVal, 1f,ribDx, ribDy);
+                }
+                canvas.drawRect(rect, paintCurrent);
+               // Log.i(TAG, "onDraw: rect.centerY(): " + rect.centerY());
+                float znak = ribDy / Math.abs(ribDy);
+                canvas.drawText(text,
+                        (rect.centerX() - (textPaint.getTextSize() * getResources().getDisplayMetrics().density) / 2) + ribDx * f2,
+                        rect.centerY() + (znak * ribDy) - textBounds.height() / 2,
+                        textPaint);
+            }
         } else {
+            Log.i(TAG, "onDraw: when else");
             super.onDraw(canvas);
         }
 
@@ -229,7 +333,6 @@ public class ImageTitle extends TextView {
     private ValueAnimator[] getSlideAnimation(){
         return getSlideAnimation(mEffectDirection);
     }
-
     private ValueAnimator[] getMoveAnimation(){
         ObjectAnimator b;
         if (((ImageFrame) this.getParent()).getTitleBlockPosition() == 1){
@@ -298,6 +401,7 @@ public class ImageTitle extends TextView {
                 } else {
                     isEffectToggled = true;
                 }
+                drawBigTriangle = false;
             }
 
             @Override
@@ -315,8 +419,43 @@ public class ImageTitle extends TextView {
         return new ValueAnimator[]{textAlpha, b};
     }
     private ValueAnimator[] getRibbonAnimation(){
-        ValueAnimator[] a = new ValueAnimator[2];
-        return a;
+        int firstAnimDuration = (int) (mEffectDuration * 0.3f);
+        ValueAnimator ribbon= ValueAnimator.ofFloat(0f, 1f).setDuration(mEffectDuration);
+
+        ribbon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                animVal = (float) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+
+        Log.i(TAG, "getRibbonAnimation: height: " + getHeight());
+
+        drawRibbon = true;
+        ribbon.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                setBackgroundColor(Color.TRANSPARENT);
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        return new ValueAnimator[]{ribbon};
     }
 
     private String rectToString(Rect r){
