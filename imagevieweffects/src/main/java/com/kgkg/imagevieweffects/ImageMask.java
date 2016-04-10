@@ -1,5 +1,6 @@
 package com.kgkg.imagevieweffects;
 
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -16,6 +17,9 @@ public class ImageMask extends FrameLayout {
     private int mEffectDuration;
     private int mMaskColor;
     private float mMaskOpacity;
+    private int parentHeight;
+    private int parentWidth;
+    private boolean isEffectToggled = false;
 
     public ImageMask(Context context) {
         super(context);
@@ -70,6 +74,14 @@ public class ImageMask extends FrameLayout {
         this.mMaskOpacity = mMaskOpacity;
     }
 
+    public boolean isEffectToggled() {
+        return isEffectToggled;
+    }
+
+    public void setEffectToggled(boolean effectToggled) {
+        isEffectToggled = effectToggled;
+    }
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -90,6 +102,9 @@ public class ImageMask extends FrameLayout {
     }
 
     protected ValueAnimator getEffectAnimation(int effect){
+        parentHeight = ((ImageFrame) this.getParent()).getHeight();
+        parentWidth = ((ImageFrame) this.getParent()).getWidth();
+        setVisibility(View.VISIBLE);
         switch (effect){
             case 0:
                 break;
@@ -101,15 +116,28 @@ public class ImageMask extends FrameLayout {
                 return getSlideLeftAnimation();
             case 4:
                 return getSlideRightAnimation();
+            case 5:
+                return getFadeAnimation();
             default:
                 return null;
         }
         return null;
     }
 
-    private ValueAnimator getSlideTopAnimation(){return new ValueAnimator();}
-    private ValueAnimator getSlideBottomAnimation(){return new ValueAnimator();}
-    private ValueAnimator getSlideLeftAnimation(){return new ValueAnimator();}
-    private ValueAnimator getSlideRightAnimation(){return new ValueAnimator();}
-    private ValueAnimator getFadeAnimation(){return new ValueAnimator();}
+    private ValueAnimator getSlideTopAnimation(){
+        ObjectAnimator topSlide = ObjectAnimator.ofFloat(this, "y", - this.getHeight(), this.getY()).setDuration(mEffectDuration);
+        return topSlide;
+    }
+    private ValueAnimator getSlideBottomAnimation(){
+        return ObjectAnimator.ofFloat(this, "y", parentHeight, this.getY()).setDuration(mEffectDuration);
+    }
+    private ValueAnimator getSlideLeftAnimation(){
+        return ObjectAnimator.ofFloat(this, "x", -parentWidth, 0).setDuration(mEffectDuration);
+    }
+    private ValueAnimator getSlideRightAnimation(){
+        return ObjectAnimator.ofFloat(this, "x", parentWidth, 0).setDuration(mEffectDuration);
+    }
+    private ValueAnimator getFadeAnimation(){
+        return null;
+    }
 }

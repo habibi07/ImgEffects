@@ -1,9 +1,11 @@
 package com.kgkg.imagevieweffects;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,7 +22,7 @@ import android.widget.ImageView;
 /**
  * Created by Krzysiek on 2016-03-30.
  */
-public class ImageFrame extends FrameLayout {
+public class ImageFrame extends FrameLayout implements View.OnClickListener{
     private final String TAG="kgkg";
     private ImageTitle mImageTitle;
     private ImageMask mImageMask;
@@ -30,6 +32,8 @@ public class ImageFrame extends FrameLayout {
     private int mImageRes;
     private int mTitleBlockPosition;
     private boolean mReverseOnSecondClick;
+    private IOnPlayEffect EffectListener;
+    private long startMils = 0;
 
     public ImageFrame(Context context) {
         super(context);
@@ -58,6 +62,7 @@ public class ImageFrame extends FrameLayout {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mView = inflater.inflate(R.layout.image_frame_layout, this, true);
         mImage = (ImageView) mView.findViewById(R.id.mImage);
+        this.setOnClickListener(this);
     }
 
     @Override
@@ -66,6 +71,7 @@ public class ImageFrame extends FrameLayout {
         if (child instanceof ImageTitle){
             mImageTitle = (ImageTitle) child;
             if (mImageTitle.getEffect() == 5){
+
                 mImageTitle.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
 
                 if (mTitleBlockPosition == 1 || mTitleBlockPosition == 0){
@@ -145,13 +151,8 @@ public class ImageFrame extends FrameLayout {
     }
 
     public void showEffects(){
-        if (mImageTitle != null && mImageMask != null){
-
-        } else if (mImageTitle != null){
-
-        } else if (mImageMask != null){
-
-        }
+        showTitleBlockEffect();
+        showMaskEffect();
     }
 
     public void showTitleBlockEffect(){
@@ -162,55 +163,82 @@ public class ImageFrame extends FrameLayout {
 
     public void showTitleBlockEffect(int effect){
         if (mImageTitle != null){
-            if (mImageTitle.getEffect() != 5 || mImageTitle.getEffect() != 6)
-                toggleTitle();
-            if (effect == 3){
+            if (effect == 3 || effect == 4){
                 float ratio;
                 if (mTitleBlockPosition ==2){
-                    ratio = -(float)mImageTitle.getHeight()/2 / mImage.getHeight();
-                } else {
-                    ratio = (float)mImageTitle.getHeight()/2 / mImage.getHeight();
-                }
-                Animation mAnimation = new TranslateAnimation(
-                        TranslateAnimation.ABSOLUTE, 0f,
-                        TranslateAnimation.ABSOLUTE, 0f,
-                        TranslateAnimation.RELATIVE_TO_PARENT, 0f,
-                        TranslateAnimation.RELATIVE_TO_PARENT, ratio);
-                mAnimation.setDuration(4000);
-                mAnimation.setFillAfter(true);
-                mImage.startAnimation(mAnimation);
-            } else if (effect == 4){
-                float ratio;
-                if (mTitleBlockPosition == 2){
                     ratio = -(float)mImageTitle.getHeight() / mImage.getHeight();
                 } else {
                     ratio = (float)mImageTitle.getHeight() / mImage.getHeight();
                 }
+                if (effect == 3){
+                    ratio = ratio /2;
+                }
                 Animation mAnimation = new TranslateAnimation(
                         TranslateAnimation.ABSOLUTE, 0f,
                         TranslateAnimation.ABSOLUTE, 0f,
                         TranslateAnimation.RELATIVE_TO_PARENT, 0f,
                         TranslateAnimation.RELATIVE_TO_PARENT, ratio);
-                mAnimation.setDuration(4000);
+                mAnimation.setDuration(mImageTitle.getEffectDuration());
                 mAnimation.setFillAfter(true);
+                if (mImageTitle.isEffectToggled()){
+                    mAnimation.setInterpolator(new ReverseInterpolator());
+                } else {
+                    mAnimation.setInterpolator(new LinearInterpolator());
+                }
                 mImage.startAnimation(mAnimation);
             }
 
             AnimatorSet anim = new AnimatorSet();
-            ValueAnimator[] anims = getTitleBlockAnimation(effect);
+            ValueAnimator[] anims = mImageTitle.getEffectAnimation(effect);
+            anim.setDuration(mImageTitle.getEffectDuration());
+            anim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+                    if (EffectListener != null){
+                        EffectListener.startEffect();
+                    }
+                    startMils = System.currentTimeMillis();
+                    //Log.i(TAG, "onAnimationStart: startMils: " + startMils);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    if (mImageTitle.isEffectToggled()){
+                        mImageTitle.setEffectToggled(false);
+                    } else {
+                        mImageTitle.setEffectToggled(true);
+                    }
+                    if (EffectListener != null){
+                        EffectListener.endEffect();
+                    }
+                    //Log.i(TAG, "onAnimationEnd: " + (System.currentTimeMillis() - startMils));
+                }
+                @Override
+                public void onAnimationCancel(Animator animator) {}
+                @Override
+                public void onAnimationRepeat(Animator animator) {}
+            });
 
             if (mImageTitle.isEffectToggled()){
                 for (ValueAnimator a: anims){
                     a.setInterpolator(new ReverseInterpolator());
                 }
+                if (mReverseOnSecondClick){
+                    anim.playTogether(anims);
+                    anim.start();
+                } else {
+                    mImageTitle.setEffectToggled(false);
+                    mImageTitle.setVisibility(View.INVISIBLE);
+                }
             } else {
                 for (ValueAnimator a: anims){
                     a.setInterpolator(new LinearInterpolator());
                 }
+                if (mImageTitle.getVisibility() == View.INVISIBLE)
+                    mImageTitle.setVisibility(View.VISIBLE);
+                anim.playTogether(anims);
+                anim.start();
             }
-
-            anim.playTogether(anims);
-            anim.start();
         }
     }
 
@@ -222,40 +250,45 @@ public class ImageFrame extends FrameLayout {
 
     public void showMaskEffect(int effect){
         if (mImageMask != null){
-            showMaskAnimation(effect).start();
-        }
-    }
+            ValueAnimator anim = mImageMask.getEffectAnimation();
+            if (anim != null){
+                anim.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {}
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        if (mImageMask.isEffectToggled()){
+                            mImageMask.setEffectToggled(false);
+                        } else {
+                            mImageMask.setEffectToggled(true);
+                        }
+                    }
+                    @Override
+                    public void onAnimationCancel(Animator animator) {}
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {}
+                });
 
-    private ValueAnimator getTitleBlockAnimation(){
-        return new ValueAnimator();
-    }
-    private ValueAnimator[] getTitleBlockAnimation(int effect){
-        return mImageTitle.getEffectAnimation(effect);
-    }
-    private ValueAnimator showMaskAnimation(){
-        return new ValueAnimator();
-    }
-    private ValueAnimator showMaskAnimation(int effect){
-        return new ValueAnimator();
-    }
+                if (mImageMask.isEffectToggled()){
+                    anim.setInterpolator(new ReverseInterpolator());
+                    if (mReverseOnSecondClick){
+                        anim.start();
+                    } else {
+                        mImageMask.setEffectToggled(false);
+                        mImageMask.setVisibility(View.INVISIBLE);
+                    }
+                } else {
+                    anim.setInterpolator(new LinearInterpolator());
+                    if (mImageMask.getVisibility() == View.INVISIBLE)
+                        mImageMask.setVisibility(View.VISIBLE);
+                    anim.start();
+                }
 
-    private void logViewsSizes(){
-        if (mImage != null){
-            Log.i(TAG, "logViewsSizes: Image: (" + mImage.getWidth() + " , " + mImage.getHeight() + ")");
-        } else {
-            Log.i(TAG, "logViewsSizes: Image is null");
-        }
-        if (mImageTitle != null){
-            Log.i(TAG, "logViewsSizes: mImageTitle: (" + mImageTitle.getWidth() + " , " + mImageTitle.getHeight() + ")");
-        } else {
-            Log.i(TAG, "logViewsSizes: mImageTitle is null");
-        }
-        if (mImageMask != null){
-            Log.i(TAG, "logViewsSizes: mImageMask: (" + mImageMask.getWidth() + " , " + mImageMask.getHeight() + ")");
-        } else {
-            Log.i(TAG, "logViewsSizes: mImageMask is null");
-        }
 
+            } else {
+                Log.i(TAG, "showMaskEffect: mask animation is null");
+            }
+        }
     }
 
     protected int getTitleBlockPosition() {
@@ -281,6 +314,16 @@ public class ImageFrame extends FrameLayout {
                 '}';
     }
 
+    public void setEffectListener(IOnPlayEffect effectListener) {
+        EffectListener = effectListener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        showTitleBlockEffect();
+        //showMaskEffect();
+    }
+
     private class  ReverseInterpolator extends LinearInterpolator implements Interpolator {
         @Override
         public float getInterpolation(float input) {
@@ -288,3 +331,5 @@ public class ImageFrame extends FrameLayout {
         }
     }
 }
+
+

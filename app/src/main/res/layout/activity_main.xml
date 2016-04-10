@@ -4,36 +4,232 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="20dp"
+    android:padding="10dp"
     tools:context="com.kgkg.imagevieweffectexample.MainActivity"
     android:orientation="horizontal">
 
-    <com.kgkg.imagevieweffects.ImageFrame
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/myImageFrame"
-        app:mTitleBlockPosition="top"
-        app:mImage="@drawable/hs">
-        <com.kgkg.imagevieweffects.ImageMask
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:MaskEffect="fade"
-            app:mEffectDuration="1000"
-            app:mMaskColor="@color/accent"
-            app:mMaskOpacity="0.5"/>
-        <com.kgkg.imagevieweffects.ImageTitle
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lorem ipsum"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:background="@color/accent"
-            android:gravity="center"
-            android:textColor="@android:color/holo_blue_dark"
-            android:padding="15dp"
-            app:TitleEffect="ribbon"
-            app:mEffectDuration="4000"
-            app:mEffectDirection="left"/>
-    </com.kgkg.imagevieweffects.ImageFrame>
+            android:orientation="vertical">
+
+            <!--fade-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FADE"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingTop="10dp"/>
+            <com.kgkg.imagevieweffects.ImageFrame
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/myImageFrame"
+                app:mTitleBlockPosition="top"
+                app:mImage="@drawable/hs">
+                <com.kgkg.imagevieweffects.ImageMask
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:MaskEffect="slideTop"
+                    app:mEffectDuration="1000"
+                    app:mMaskColor="@color/accent"
+                    app:mMaskOpacity="0.5"/>
+                <com.kgkg.imagevieweffects.ImageTitle
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:background="@color/accent"
+                    android:gravity="center"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:padding="15dp"
+                    app:TitleEffect="fade"
+                    app:mEffectDuration="1000"
+                    app:mEffectDirection="left"/>
+            </com.kgkg.imagevieweffects.ImageFrame>
+
+            <!--slide-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SLIDE"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingTop="10dp" />
+            <com.kgkg.imagevieweffects.ImageFrame
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mTitleBlockPosition="top"
+                app:mImage="@drawable/hs">
+                <com.kgkg.imagevieweffects.ImageMask
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:MaskEffect="slideBottom"
+                    app:mEffectDuration="1000"
+                    app:mMaskColor="@color/accent"
+                    app:mMaskOpacity="0.5"/>
+                <com.kgkg.imagevieweffects.ImageTitle
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:background="@color/accent"
+                    android:gravity="center"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:padding="15dp"
+                    app:TitleEffect="slide"
+                    app:mEffectDuration="1000"
+                    app:mEffectDirection="left"/>
+            </com.kgkg.imagevieweffects.ImageFrame>
+
+            <!--move-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MOVE"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingTop="10dp" />
+            <com.kgkg.imagevieweffects.ImageFrame
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mTitleBlockPosition="top"
+                app:mImage="@drawable/hs">
+                <com.kgkg.imagevieweffects.ImageMask
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:MaskEffect="slideLeft"
+                    app:mEffectDuration="1000"
+                    app:mMaskColor="@color/accent"
+                    app:mMaskOpacity="0.5"/>
+                <com.kgkg.imagevieweffects.ImageTitle
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:background="@color/accent"
+                    android:gravity="center"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:padding="15dp"
+                    app:TitleEffect="move"
+                    app:mEffectDuration="1000"
+                    app:mEffectDirection="left"/>
+            </com.kgkg.imagevieweffects.ImageFrame>
+
+            <!--uncover-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="UNCOVER"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingTop="10dp" />
+            <com.kgkg.imagevieweffects.ImageFrame
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mTitleBlockPosition="top"
+                app:mImage="@drawable/hs">
+                <com.kgkg.imagevieweffects.ImageMask
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:MaskEffect="slideRight"
+                    app:mEffectDuration="1000"
+                    app:mMaskColor="@color/accent"
+                    app:mMaskOpacity="0.5"/>
+                <com.kgkg.imagevieweffects.ImageTitle
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:background="@color/accent"
+                    android:gravity="center"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:padding="15dp"
+                    app:TitleEffect="uncover"
+                    app:mEffectDuration="1000"
+                    app:mEffectDirection="left"/>
+            </com.kgkg.imagevieweffects.ImageFrame>
+
+            <!--corner-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CORNER"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingTop="10dp" />
+            <com.kgkg.imagevieweffects.ImageFrame
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mTitleBlockPosition="top"
+                app:mImage="@drawable/hs">
+                <com.kgkg.imagevieweffects.ImageMask
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:MaskEffect="fade"
+                    app:mEffectDuration="1000"
+                    app:mMaskColor="@color/accent"
+                    app:mMaskOpacity="0.5"/>
+                <com.kgkg.imagevieweffects.ImageTitle
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:background="@color/accent"
+                    android:gravity="center"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:padding="15dp"
+                    app:TitleEffect="corner"
+                    app:mEffectDuration="1000"
+                    app:mEffectDirection="left"/>
+            </com.kgkg.imagevieweffects.ImageFrame>
+
+            <!--ribbon-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="RIBBON"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingTop="10dp" />
+            <com.kgkg.imagevieweffects.ImageFrame
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mTitleBlockPosition="top"
+                app:mImage="@drawable/hs">
+                <com.kgkg.imagevieweffects.ImageMask
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:MaskEffect="fade"
+                    app:mEffectDuration="1000"
+                    app:mMaskColor="@color/accent"
+                    app:mMaskOpacity="0.5"/>
+                <com.kgkg.imagevieweffects.ImageTitle
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:background="@color/accent"
+                    android:gravity="center"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:padding="15dp"
+                    app:TitleEffect="ribbon"
+                    app:mEffectDuration="1000"
+                    app:mEffectDirection="left"/>
+            </com.kgkg.imagevieweffects.ImageFrame>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>

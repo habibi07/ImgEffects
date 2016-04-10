@@ -35,7 +35,7 @@ public class ImageTitle extends TextView {
     private float triangleHeight = 100.0f;
     private int bgColor;
     private boolean isEffectToggled = false;
-    Paint paint;
+    private Paint paint;
     private float animVal = 0;
     private float ribDx = -50f;
     private float ribDy = -50f;
@@ -46,6 +46,8 @@ public class ImageTitle extends TextView {
     public ImageTitle(Context context) {
         super(context);
     }
+
+
 
     public ImageTitle(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -61,13 +63,11 @@ public class ImageTitle extends TextView {
 
         bgColor = ((ColorDrawable) getBackground()).getColor();
 
-        if (mEffect != 5 || mEffect != 6){
+        if (mEffect != 5){
             setVisibility(View.INVISIBLE);
         } else {
             drawSmallTriangle = true;
             setVisibility(View.VISIBLE);
-            //setTextAlpha(0);
-
 
             setBackgroundColor(Color.TRANSPARENT);
 
@@ -76,7 +76,6 @@ public class ImageTitle extends TextView {
             paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setStyle(Paint.Style.FILL);
             paint.setAntiAlias(true);
-            //getBackground().setAlpha(0);
             paint.setColor(bgColor);
         }
     }
@@ -143,7 +142,6 @@ public class ImageTitle extends TextView {
         } else if (drawRibbon){
             Rect newRect = canvas.getClipBounds();
             newRect.inset(-Math.abs((int) ribDx), -Math.abs((int) ribDy));
-
             canvas.clipRect(newRect, Region.Op.REPLACE);
 
             Paint paintCurrent = new Paint();
@@ -205,8 +203,6 @@ public class ImageTitle extends TextView {
                 }
                 canvas.drawPath(ribPath, newPaint);
 
-                Log.i(TAG, "onDraw: rect Left: " + rect.left);
-
                 Paint textPaint = super.getPaint();
                 Rect textBounds = new Rect();
                 
@@ -233,7 +229,6 @@ public class ImageTitle extends TextView {
                         textPaint);
             }
         } else {
-            Log.i(TAG, "onDraw: when else");
             super.onDraw(canvas);
         }
 
@@ -304,8 +299,8 @@ public class ImageTitle extends TextView {
     }
 
     private ValueAnimator[] getFadeAnimation(){
-        ObjectAnimator a = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f).setDuration(mEffectDuration);
-        return new ValueAnimator[]{a};
+        ObjectAnimator fade = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f).setDuration(mEffectDuration);
+        return new ValueAnimator[]{fade};
     }
 
     private ValueAnimator[] getSlideAnimation(int direction){
@@ -334,13 +329,13 @@ public class ImageTitle extends TextView {
         return getSlideAnimation(mEffectDirection);
     }
     private ValueAnimator[] getMoveAnimation(){
-        ObjectAnimator b;
+        ObjectAnimator move;
         if (((ImageFrame) this.getParent()).getTitleBlockPosition() == 1){
-            b = ObjectAnimator.ofFloat(this, "y", - this.getHeight(), 0).setDuration(mEffectDuration);
+            move = ObjectAnimator.ofFloat(this, "y", - this.getHeight(), 0).setDuration(mEffectDuration);
         } else {
-            b = (ObjectAnimator) getSlideAnimation()[0];
+            move = (ObjectAnimator) getSlideAnimation()[0];
         }
-        return new ValueAnimator[]{b};
+        return new ValueAnimator[]{move};
     }
     private ValueAnimator[] getUncoverAnimation(){
         return getMoveAnimation();
@@ -360,8 +355,8 @@ public class ImageTitle extends TextView {
         drawSmallTriangle = false;
         drawBigTriangle = true;
 
-        ValueAnimator b = ValueAnimator.ofFloat(0, 1f).setDuration(mEffectDuration);
-        b.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        ValueAnimator corner = ValueAnimator.ofFloat(0, 1f).setDuration(mEffectDuration);
+        corner.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float val = (float) animation.getAnimatedValue();
@@ -388,40 +383,24 @@ public class ImageTitle extends TextView {
                 invalidate();
             }
         });
-        b.addListener(new Animator.AnimatorListener() {
+        corner.addListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
+            public void onAnimationStart(Animator animation) {}
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (isEffectToggled){
-                    isEffectToggled = false;
-                } else {
-                    isEffectToggled = true;
-                }
-                drawBigTriangle = false;
-            }
 
+            }
             @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
+            public void onAnimationCancel(Animator animation) {}
             @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
+            public void onAnimationRepeat(Animator animation) {}
         });
 
 
-        return new ValueAnimator[]{textAlpha, b};
+        return new ValueAnimator[]{textAlpha, corner};
     }
     private ValueAnimator[] getRibbonAnimation(){
-        int firstAnimDuration = (int) (mEffectDuration * 0.3f);
         ValueAnimator ribbon= ValueAnimator.ofFloat(0f, 1f).setDuration(mEffectDuration);
-
         ribbon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -430,30 +409,20 @@ public class ImageTitle extends TextView {
             }
         });
 
-        Log.i(TAG, "getRibbonAnimation: height: " + getHeight());
+        setVisibility(View.VISIBLE);
 
         drawRibbon = true;
         ribbon.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
                 setBackgroundColor(Color.TRANSPARENT);
-
             }
-
             @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
+            public void onAnimationEnd(Animator animation) {}
             @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
+            public void onAnimationCancel(Animator animation) {}
             @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
+            public void onAnimationRepeat(Animator animation) {}
         });
         return new ValueAnimator[]{ribbon};
     }
@@ -466,11 +435,22 @@ public class ImageTitle extends TextView {
         int color = this.getCurrentTextColor();
         setTextColor(Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color)));
     }
-    private int getTextAlpha(){
-        return 255;
-    }
 
+    /**
+     * Getter for isEffectToggled property
+     * @return
+     */
     public boolean isEffectToggled() {
         return isEffectToggled;
     }
+
+    /**
+     * Setter for isEffect toggled
+     * @param val - boolean value determinating whether effect is toggled or not
+     */
+    protected void setEffectToggled(boolean val){
+        this.isEffectToggled = val;
+    }
+
+
 }
