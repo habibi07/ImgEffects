@@ -194,6 +194,7 @@ public class ImageFrame extends FrameLayout implements View.OnClickListener{
             anim.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animator) {
+
                     if (EffectListener != null){
                         EffectListener.startEffect();
                     }
@@ -254,7 +255,8 @@ public class ImageFrame extends FrameLayout implements View.OnClickListener{
             if (anim != null){
                 anim.addListener(new Animator.AnimatorListener() {
                     @Override
-                    public void onAnimationStart(Animator animator) {}
+                    public void onAnimationStart(Animator animator) {
+                    }
                     @Override
                     public void onAnimationEnd(Animator animator) {
                         if (mImageMask.isEffectToggled()){
@@ -317,6 +319,7 @@ public class ImageFrame extends FrameLayout implements View.OnClickListener{
     public void setEffectListener(IOnPlayEffect effectListener) {
         EffectListener = effectListener;
     }
+
 
     @Override
     public void onClick(View view) {

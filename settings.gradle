@@ -1,1 +1,1 @@
-include ':app', ':imagevieweffects'
+include ':ImgEffects-sample', ':ImgEffects'
