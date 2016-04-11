@@ -35,6 +35,7 @@ public class ImageFrame extends FrameLayout implements View.OnClickListener{
     private IOnPlayEffect EffectListener;
     private long startMils = 0;
 
+    //// TODO: 4/11/16 add properties for interpolator
     public ImageFrame(Context context) {
         super(context);
         init();
@@ -264,6 +265,7 @@ public class ImageFrame extends FrameLayout implements View.OnClickListener{
                         } else {
                             mImageMask.setEffectToggled(true);
                         }
+
                     }
                     @Override
                     public void onAnimationCancel(Animator animator) {}
@@ -324,7 +326,8 @@ public class ImageFrame extends FrameLayout implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         showTitleBlockEffect();
-        //showMaskEffect();
+        showMaskEffect();
+
     }
 
     private class  ReverseInterpolator extends LinearInterpolator implements Interpolator {

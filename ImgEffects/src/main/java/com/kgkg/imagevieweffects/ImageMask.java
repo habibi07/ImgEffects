@@ -4,7 +4,12 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -20,7 +25,11 @@ public class ImageMask extends FrameLayout {
     private int parentHeight;
     private int parentWidth;
     private boolean isEffectToggled = false;
+    private boolean onSlideIn = false;
+    private float animVal = 0f;
 
+
+    //// TODO: 4/11/16 finish onSlideIn animation
     public ImageMask(Context context) {
         super(context);
     }
@@ -104,7 +113,8 @@ public class ImageMask extends FrameLayout {
     protected ValueAnimator getEffectAnimation(int effect){
         parentHeight = ((ImageFrame) this.getParent()).getHeight();
         parentWidth = ((ImageFrame) this.getParent()).getWidth();
-        setVisibility(View.VISIBLE);
+        setX(0f);
+        setY(0f);
         switch (effect){
             case 0:
                 break;
@@ -117,6 +127,8 @@ public class ImageMask extends FrameLayout {
             case 4:
                 return getSlideRightAnimation();
             case 5:
+                return getSlideInAnimation();
+            case 6:
                 return getFadeAnimation();
             default:
                 return null;
@@ -138,6 +150,39 @@ public class ImageMask extends FrameLayout {
         return ObjectAnimator.ofFloat(this, "x", parentWidth, 0).setDuration(mEffectDuration);
     }
     private ValueAnimator getFadeAnimation(){
-        return null;
+        ObjectAnimator fade = ObjectAnimator.ofFloat(this, "alpha", 0f, mMaskOpacity).setDuration(mEffectDuration);
+        return fade;
+    }
+    private ValueAnimator getSlideInAnimation(){
+        ValueAnimator slideIn = ValueAnimator.ofFloat(0f, 1f).setDuration(mEffectDuration);
+        slideIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                animVal = (float) valueAnimator.getAnimatedValue();
+                Log.i(TAG, "onAnimationUpdate: animVal: " + animVal);
+                invalidate();
+            }
+        });
+        onSlideIn = true;
+        return slideIn;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if (onSlideIn){
+            Rect r1 = new Rect(0, 0, (int) (parentWidth * (1 - animVal)), (int) (parentHeight * (1 - animVal) / 2));
+            Rect r2 = new Rect(r1.right, 0, parentWidth, parentHeight);
+            Rect r3 = new Rect(0,
+                    (int) (parentHeight - (parentHeight * animVal / 2)),
+                    r1.right,
+                    parentHeight);
+            Paint p = new Paint();
+            p.setColor(((ColorDrawable) getBackground()).getColor());
+            canvas.drawRect(r1, p);
+            //canvas.drawRect(r2, p);
+            //canvas.drawRect(r3, p);
+        } else {
+            super.onDraw(canvas);
+        }
     }
 }

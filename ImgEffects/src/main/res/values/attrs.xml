@@ -29,7 +29,8 @@
             <enum name="slideBottom" value="2" />
             <enum name="slideLeft" value="3" />
             <enum name="slideRight" value="4" />
-            <enum name="fade" value="5" />
+            <enum name="slideIn" value="5" />
+            <enum name="fade" value="6" />
         </attr>
         <attr name="mEffectDuration" />
         <attr name="mMaskColor" format="color" />

@@ -28,31 +28,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/myImageFrame"
-                app:mTitleBlockPosition="top"
+                app:mTitleBlockPosition="middle"
                 app:mImage="@drawable/hs">
                 <com.kgkg.imagevieweffects.ImageMask
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:MaskEffect="slideTop"
+                    app:MaskEffect="slideIn"
                     app:mEffectDuration="1000"
-                    app:mMaskColor="@color/accent"
+                    app:mMaskColor="#FF303F9F"
                     app:mMaskOpacity="0.5"/>
+
                 <com.kgkg.imagevieweffects.ImageTitle
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Lorem ipsum"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:background="@color/accent"
+                    android:background="#15A98E"
                     android:gravity="center"
-                    android:textColor="@android:color/holo_blue_dark"
+                    android:textColor="@android:color/white"
                     android:padding="15dp"
-                    app:TitleEffect="fade"
+                    app:TitleEffect="ribbon"
                     app:mEffectDuration="1000"
                     app:mEffectDirection="left"/>
             </com.kgkg.imagevieweffects.ImageFrame>
 
             <!--slide-->
-            <TextView
+ <!--           <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="SLIDE"
@@ -86,7 +87,7 @@
                     app:mEffectDirection="left"/>
             </com.kgkg.imagevieweffects.ImageFrame>
 
-            <!--move-->
+            &lt;!&ndash;move&ndash;&gt;
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -121,7 +122,7 @@
                     app:mEffectDirection="left"/>
             </com.kgkg.imagevieweffects.ImageFrame>
 
-            <!--uncover-->
+            &lt;!&ndash;uncover&ndash;&gt;
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -156,7 +157,7 @@
                     app:mEffectDirection="left"/>
             </com.kgkg.imagevieweffects.ImageFrame>
 
-            <!--corner-->
+            &lt;!&ndash;corner&ndash;&gt;
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -191,7 +192,7 @@
                     app:mEffectDirection="left"/>
             </com.kgkg.imagevieweffects.ImageFrame>
 
-            <!--ribbon-->
+            &lt;!&ndash;ribbon&ndash;&gt;
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -225,7 +226,7 @@
                     app:mEffectDuration="1000"
                     app:mEffectDirection="left"/>
             </com.kgkg.imagevieweffects.ImageFrame>
-
+-->
         </LinearLayout>
 
     </ScrollView>
