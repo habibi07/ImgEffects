@@ -4,7 +4,7 @@ Cool ImageVeiw effect
 ![alt tag](https://geocad.waw.pl/repo/presentation_gif.gif)
 
 ###1. Add library to project
-
+https://geocad.waw.pl/repo/presentation_gif.gif
 #### Grab via Gradle:
 
 ###2. Add container view in XML Layout for title block and mask
