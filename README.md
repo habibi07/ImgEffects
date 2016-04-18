@@ -1,5 +1,7 @@
-# ImgEffects
-Cool ImageVeiw effect
+#**ImgEffects** 
+Cool ImageVeiw effects
+
+![](presentation_gif.gif)
 
 ###1. Add library to project
 
