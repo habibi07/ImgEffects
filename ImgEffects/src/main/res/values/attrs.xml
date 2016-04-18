@@ -11,6 +11,8 @@
     <declare-styleable name="ImageTitle">
         <attr name="mEffectDuration" />
         <attr name="mEffectDirection" />
+        <attr name="mCornerDx" format="float"/>
+        <attr name="mCornerDy" format="float"/>
         <attr name="TitleEffect" format="integer">
             <enum name="none" value="0" />
             <enum name="fade" value="1" />
