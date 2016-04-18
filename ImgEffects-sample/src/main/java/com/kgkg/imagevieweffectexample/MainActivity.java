@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+ 
         imageFrame = (ImageFrame) findViewById(R.id.myImageFrame);
         imageTitle = (ImageTitle) findViewById(R.id.titleBlock);
         imageMask = (ImageMask) findViewById(R.id.titleMask);
