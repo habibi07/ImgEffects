@@ -74,6 +74,7 @@ public class MainActivity extends Activity {
         imageFrame.setTitleBlockPosition(1);
         imageTitle.setEffect(3);
         imageMask.setEffect(2);
+
     }
     //slide right and slideLeft
     public void button5(View v){
