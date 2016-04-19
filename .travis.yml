@@ -1,0 +1,19 @@
+language: android
+sudo: false
+
+android:
+  components:
+    - platform-tool
+    - tool
+    - build-tools-23.0.2
+    - android-23
+    - extra-android-m2repository
+    - extra-google-m2repository
+
+install: false
+script:
+  - ./gradlew build
+
+os:
+  - linux
+
