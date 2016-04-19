@@ -14,20 +14,14 @@ Cool ImageVeiw effects
 ```xmlns:app="http://schemas.android.com/apk/res-auto"```
 
 #### 2.1. Setup ImageFrame
-
-    ```
-    <com.kgkg.imagevieweffects.ImageFrame
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/myImageFrame"
-        app:mTitleBlockPosition="top"
-        app:mImage="@drawable/hs">
-        /*
-        * ImageMask and ImageTitle
-        */
-    </com.kgkg.imagevieweffects.ImageFrame> 
-    ```
-    
+``<com.kgkg.imagevieweffects.ImageFrame
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:id="@+id/myImageFrame"
+   app:mTitleBlockPosition="top"
+   app:mImage="@drawable/hs">
+   
+</com.kgkg.imagevieweffects.ImageFrame>  ``
 #### 2.2. Setup TitleBlock
 
     ```
