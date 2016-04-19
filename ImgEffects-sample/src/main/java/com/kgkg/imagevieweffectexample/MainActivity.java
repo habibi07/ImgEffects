@@ -98,4 +98,8 @@ public class MainActivity extends Activity {
         imageMask.setEffect(4);
     }
 
+    public void button8(View v){
+        imageFrame.showEffects();
+    }
+
 }
