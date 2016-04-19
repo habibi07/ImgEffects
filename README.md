@@ -15,7 +15,7 @@ Cool ImageVeiw effects
 
 ```xmlns:app='http://schemas.android.com/apk/res-auto'```
 
-#### 2.1. Setup ImageFrame
+#### * Setup ImageFrame
 ```<com.kgkg.imagevieweffects.ImageFrame
    android:layout_width="wrap_content"
    android:layout_height="wrap_content"
@@ -25,7 +25,7 @@ Cool ImageVeiw effects
    
 </com.kgkg.imagevieweffects.ImageFrame>  ```
 
-#### 2.2. Setup TitleBlock
+#### * Setup TitleBlock
 
     ```
     <com.kgkg.imagevieweffects.ImageMask
@@ -38,7 +38,7 @@ Cool ImageVeiw effects
                 app:mMaskOpacity="0.5"/>
     ```
 
-#### 2.3. Setup mask
+#### * Setup mask
 
     ```
     <com.kgkg.imagevieweffects.ImageTitle
