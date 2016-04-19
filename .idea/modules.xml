@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ImageViewEffects.iml" filepath="$PROJECT_DIR$/ImageViewEffects.iml" />
       <module fileurl="file://$PROJECT_DIR$/ImgEffects/ImgEffects.iml" filepath="$PROJECT_DIR$/ImgEffects/ImgEffects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ImgEffects-sample/ImgEffects-sample.iml" filepath="$PROJECT_DIR$/ImgEffects-sample/ImgEffects-sample.iml" />
     </modules>
   </component>
 </project>

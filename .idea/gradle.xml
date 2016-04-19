@@ -10,12 +10,14 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ImgEffects" />
+            <option value="$PROJECT_DIR$/ImgEffects-sample" />
           </set>
         </option>
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ImgEffects" />
+            <option value="$PROJECT_DIR$/ImgEffects-sample" />
           </set>
         </option>
       </GradleProjectSettings>

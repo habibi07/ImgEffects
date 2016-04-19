@@ -10,12 +10,12 @@ Cool ImageVeiw effects
 ```compile 'com.github.habibi07:ImgEffects:1.0.4'```
 
 ### 2. Add View to layout
-# first add xml namespace to access custom properties (add following line to your root viewgroup)
+#### first add xml namespace to access custom properties (add following line to your root viewgroup)
 ```xmlns:app="http://schemas.android.com/apk/res-auto"```
 
-## 2.1. Setup ImageFrame
-```
-    <com.kgkg.imagevieweffects.ImageFrame
+#### 2.1. Setup ImageFrame
+
+```<com.kgkg.imagevieweffects.ImageFrame
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/myImageFrame"
@@ -24,9 +24,10 @@ Cool ImageVeiw effects
         /*
         * ImageMask and ImageTitle
         */
-    </com.kgkg.imagevieweffects.ImageFrame> 
-```
-## 2.2. Setup TitleBlock
+    </com.kgkg.imagevieweffects.ImageFrame> ```
+    
+#### 2.2. Setup TitleBlock
+
 ```
     <com.kgkg.imagevieweffects.ImageMask
                 android:id="@+id/titleMask"
@@ -37,7 +38,9 @@ Cool ImageVeiw effects
                 app:mMaskColor="#FF303F9F"
                 app:mMaskOpacity="0.5"/>
 ```
-## 2.3. Setup mask
+
+#### 2.3. Setup mask
+
 ```
     <com.kgkg.imagevieweffects.ImageTitle
                 android:id="@+id/titleBlock"
@@ -53,7 +56,7 @@ Cool ImageVeiw effects
                 app:mEffectDuration="1000"
                 app:mEffectDirection="left"/>
 ```
-## 3. Set effect listener
+#### 3. Set effect listener
 ```
     IOnPlayEffect listener = new IOnPlayEffect() {
         @Override
@@ -80,6 +83,7 @@ Cool ImageVeiw effects
 
 ## License
 ```
+
 Copyright (C) 2016 Krzysztof Gregorowicz
 
 Licensed under the Apache License, Version 2.0 (the "License");
