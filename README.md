@@ -11,7 +11,7 @@ Cool ImageVeiw effects
 ```compile 'com.github.habibi07:ImgEffects:1.0.4'```
 
 ### 2. Add View to layout
-#### first add xml namespace to access custom properties (add following line to your root viewgroup)
+#### first add xml namespace to access custom properties, add following line to your root viewgroup
 
 ```xmlns:app='http://schemas.android.com/apk/res-auto'```
 
