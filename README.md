@@ -6,7 +6,7 @@ Cool ImageVeiw effects
 ![](presentation_gif.gif)
 
 ### 1. Add library to project
-#### Grab via Gradle (add to your denepndencies in module gradle:
+#### Grab via Gradle, add to your denepndencies in module gradle:
 
 ```compile 'com.github.habibi07:ImgEffects:1.0.4'```
 

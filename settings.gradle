@@ -1,1 +1,3 @@
-include ':ImgEffects' , ':ImgEffects-sample'
+include ':ImgEffects'
+
+/*, ':ImgEffects-sample'*/
