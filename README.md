@@ -7,21 +7,24 @@ Cool ImageVeiw effects
 
 ### 1. Add library to project
 #### Grab via Gradle (add to your denepndencies in module gradle:
+
 ```compile 'com.github.habibi07:ImgEffects:1.0.4'```
 
 ### 2. Add View to layout
 #### first add xml namespace to access custom properties (add following line to your root viewgroup)
-```xmlns:app="http://schemas.android.com/apk/res-auto"```
+
+```xmlns:app='http://schemas.android.com/apk/res-auto'```
 
 #### 2.1. Setup ImageFrame
-``<com.kgkg.imagevieweffects.ImageFrame
+```<com.kgkg.imagevieweffects.ImageFrame
    android:layout_width="wrap_content"
    android:layout_height="wrap_content"
    android:id="@+id/myImageFrame"
    app:mTitleBlockPosition="top"
    app:mImage="@drawable/hs">
    
-</com.kgkg.imagevieweffects.ImageFrame>  ``
+</com.kgkg.imagevieweffects.ImageFrame>  ```
+
 #### 2.2. Setup TitleBlock
 
     ```
