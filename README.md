@@ -17,7 +17,7 @@ add xml namespace to access custom properties, add following line to your root v
 ```xmlns:app='http://schemas.android.com/apk/res-auto' ```
 
 
-###2.1. Setup ImageFrame.
+####2.1. Setup ImageFrame.
 ```
   <com.kgkg.imagevieweffects.ImageFrame
     android:layout_width='wrap_content'
@@ -57,7 +57,7 @@ add xml namespace to access custom properties, add following line to your root v
   app:mEffectDirection="left"/>
 ```
     
-####3. Set effect listener
+##3. Set effect listener
 ```
 IOnPlayEffect listener = new IOnPlayEffect() {
     @Override
