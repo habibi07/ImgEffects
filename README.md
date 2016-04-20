@@ -12,7 +12,8 @@ add xml namespace to access custom properties, add following line to your root v
 
 
 ###2.1. Setup ImageFrame.
-```<com.kgkg.imagevieweffects.ImageFrame
+```
+  <com.kgkg.imagevieweffects.ImageFrame
       android:layout_width='wrap_content'
       android:layout_height="wrap_content"
       android:id="@+id/myImageFrame"
@@ -22,7 +23,8 @@ add xml namespace to access custom properties, add following line to your root v
    ```
 
 ####2.2. Setup TitleBlock.
-```<com.kgkg.imagevieweffects.ImageMask
+```
+<com.kgkg.imagevieweffects.ImageMask
       android:id="@+id/titleMask"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
