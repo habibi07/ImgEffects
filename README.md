@@ -1,3 +1,9 @@
+[![Build Status](https://travis-ci.org/habibi07/ImgEffects.svg?branch=master)](https://travis-ci.org/habibi07/ImgEffects)
+
+# ImgEffects
+Cool ImageVeiw effects
+
+![](presentation_gif.gif)
 
 ## 1. Add library to project
 
@@ -70,9 +76,8 @@ protected void onCreate(Bundle savedInstanceState) {
 }  
 ```
 
-### To check other custom properties for view, simply read attrs file in ImgEffects module in resources
-
-### If you have any question, don't hesitate, write to me or simply, create an issue :)
+###### To check other custom properties for view, simply read attrs file in ImgEffects module in resources
+###### If you have any question, don't hesitate, write to me or simply, create an issue :)
 
 
 ## License
