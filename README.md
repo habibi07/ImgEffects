@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/habibi07/ImgEffects.svg?branch=master)](https://travis-ci.org/habibi07/ImgEffects)
-
 # **ImgEffects**
 Cool ImageVeiw effects
 
