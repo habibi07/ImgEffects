@@ -18,7 +18,8 @@ add xml namespace to access custom properties, add following line to your root v
       android:id="@+id/myImageFrame"
       app:mTitleBlockPosition="top"
       app:mImage="@drawable/hs">
-   </com.kgkg.imagevieweffects.ImageFrame> ```
+   </com.kgkg.imagevieweffects.ImageFrame> 
+   ```
 
 ####2.2. Setup TitleBlock.
 ```<com.kgkg.imagevieweffects.ImageMask
@@ -28,7 +29,8 @@ add xml namespace to access custom properties, add following line to your root v
       app:MaskEffect="slideIn"
       app:mEffectDuration="1000"
       app:mMaskColor="#FF303F9F"
-      app:mMaskOpacity="0.5"/>```
+      app:mMaskOpacity="0.5"/>
+      ```
 
 ####2.3. Setup mask
 ```
@@ -45,7 +47,7 @@ add xml namespace to access custom properties, add following line to your root v
     app:TitleEffect="ribbon"
     app:mEffectDuration="1000"
     app:mEffectDirection="left"/>
-```
+    ```
     
 ####3. Set effect listener
 ```
