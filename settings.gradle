@@ -1,3 +1,2 @@
 include ':ImgEffects'
-project(':').projectDir = new File('ImgEffects-sample/')
-/*, ':ImgEffects-sample'*/
+include ':ImgEffects-sample'
