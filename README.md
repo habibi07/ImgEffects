@@ -1,43 +1,36 @@
-# **ImgEffects**
-Cool ImageVeiw effects
 
-![](presentation_gif.gif)
+## 1. Add library to project
 
-### 1. Add library to project
-#### Grab via Gradle, add to your denepndencies in module gradle:
+Grab via Gradle, add to your denepndencies in module gradle:
 
-```compile 'com.github.habibi07:ImgEffects:1.0.4'```
+```compile 'com.github.habibi07:ImgEffects:1.0.4' ```
 
-## 2. Add View to layout
-##### first add xml namespace to access custom properties, add following line to your root viewgroup
+## 2. Add View to layout first,
+add xml namespace to access custom properties, add following line to your root viewgroup.
 
-```xmlns:app='http://schemas.android.com/apk/res-auto'```
+```xmlns:app='http://schemas.android.com/apk/res-auto' ```
 
-### 2.1 Setup ImageFrame
-```
-<com.kgkg.imagevieweffects.ImageFrame
-   android:layout_width="wrap_content"
-   android:layout_height="wrap_content"
-   android:id="@+id/myImageFrame"
-   app:mTitleBlockPosition="top"
-   app:mImage="@drawable/hs">
-</com.kgkg.imagevieweffects.ImageFrame>
-```
 
-#### 2.2 Setup TitleBlock
+###2.1. Setup ImageFrame.
+```<com.kgkg.imagevieweffects.ImageFrame
+      android:layout_width='wrap_content'
+      android:layout_height="wrap_content"
+      android:id="@+id/myImageFrame"
+      app:mTitleBlockPosition="top"
+      app:mImage="@drawable/hs">
+   </com.kgkg.imagevieweffects.ImageFrame> ```
 
-```
-<com.kgkg.imagevieweffects.ImageMask
-    android:id="@+id/titleMask"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:MaskEffect="slideIn"
-    app:mEffectDuration="1000"
-    app:mMaskColor="#FF303F9F"
-    app:mMaskOpacity="0.5"/>
-```
+####2.2. Setup TitleBlock.
+```<com.kgkg.imagevieweffects.ImageMask
+      android:id="@+id/titleMask"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:MaskEffect="slideIn"
+      app:mEffectDuration="1000"
+      app:mMaskColor="#FF303F9F"
+      app:mMaskOpacity="0.5"/>```
 
-#### 2.3 Setup mask
+####2.3. Setup mask
 ```
 <com.kgkg.imagevieweffects.ImageTitle
     android:id="@+id/titleBlock"
@@ -54,7 +47,7 @@ Cool ImageVeiw effects
     app:mEffectDirection="left"/>
 ```
     
-#### 3. Set effect listener
+####3. Set effect listener
 ```
 IOnPlayEffect listener = new IOnPlayEffect() {
     @Override
