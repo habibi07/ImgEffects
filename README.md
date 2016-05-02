@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/habibi07/ImgEffects.svg?branch=master)](https://travis-ci.org/habibi07/ImgEffects)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ImgEffects-green.svg?style=true)](https://android-arsenal.com/details/1/3476)
 
 # ImgEffects
 Cool ImageVeiw effects
