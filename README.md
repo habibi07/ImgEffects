@@ -29,7 +29,7 @@ add xml namespace to access custom properties, add following line to your root v
   </com.kgkg.imagevieweffects.ImageFrame>
   ```
 
-####2.2. Setup TitleBlock.
+#### 2.2. Setup TitleBlock.
 ```
 <com.kgkg.imagevieweffects.ImageMask
   android:id="@+id/titleMask"
